@@ -1,0 +1,14 @@
+img {
+  width: 350px;
+  height: 350px;
+  border-radius: 50%;
+}
+
+button {
+  padding: 20px;
+  margin: 20px;
+  border: 0;
+  border-radius: 10px;
+  background-color: rgb(18, 91, 218);
+  color: #fff;
+}
