@@ -1,8 +1,15 @@
 import styled from "styled-components";
 import PangImage from "../assets/ggompang.jpeg";
 import "./Home.css";
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
+  const nav = useNavigate();
+
+  const handlerClickButton = () => {
+    nav("Question");
+  };
+
   return (
     <Wrapper>
       <Header>예비집사 판별기</Header>
@@ -12,7 +19,7 @@ const Home = () => {
           <img alt="고양이 사진" src={PangImage} />
         </LogoImage>
         <Desc>MBTI를 기반으로 하는 나랑 잘맞는 고양이 찾기!</Desc>
-        <button>테스트 시작하기</button>
+        <button onClick={handlerClickButton}>테스트 시작하기</button>
       </Contents>
     </Wrapper>
   );
