@@ -4,18 +4,21 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const Question = () => {
-  const [questioNo, setQuestioNo] = useState(0);
+  // 현재 질문 번호와 총 점수를 상태로 관리
+  const [questionNo, setQuestionNo] = useState(0);
   const [totalScore, setTotalScore] = useState([
     { id: "EI", score: 0 },
     { id: "SN", score: 0 },
     { id: "TF", score: 0 },
     { id: "JP", score: 0 },
   ]);
-  console.log("totalScore : ", totalScore);
 
-  const nav = useNavigate();
+  // react-router-dom의 useNavigate 훅을 사용하여 페이지 이동을 관리
+  const navigate = useNavigate();
 
+  // 버튼 클릭 시 처리할 함수
   const handleClick = (no, type) => {
+    // totalScore를 매핑하여 현재 선택한 유형에 해당하는 점수를 업데이트
     const newTotalScore = totalScore.map(item => {
       if (item.id === type) {
         return { ...item, score: item.score + no };
@@ -23,26 +26,33 @@ const Question = () => {
       return item;
     });
 
+    // totalScore와 questionNo를 업데이트
     setTotalScore(newTotalScore);
-    if (QuestionData.length !== questioNo + 1) {
-      setQuestioNo(questioNo + 1);
+
+    // 다음 질문으로 넘어가거나 결과 페이지로 이동
+    if (QuestionData.length !== questionNo + 1) {
+      setQuestionNo(questionNo + 1);
     } else {
-      nav("/result");
+      navigate("/result");
     }
   };
 
   return (
     <Wrapper>
-      <p>진행 현황 : {(questioNo / QuestionData.length) * 100}</p>
-      <Title>{QuestionData[questioNo].title}</Title>
-      <button onClick={() => handleClick(1, QuestionData[questioNo].type)}>{QuestionData[questioNo].answera}</button>
-      <button onClick={() => handleClick(0, QuestionData[questioNo].type)}>{QuestionData[questioNo].answerb}</button>
+      {/* 진행 상황을 퍼센트로 표시 */}
+      <p>진행 현황 : {(questionNo / QuestionData.length) * 100}</p>
+      {/* 현재 질문의 제목을 표시 */}
+      <Title>{QuestionData[questionNo].title}</Title>
+      {/* 두 개의 선택지 버튼 */}
+      <button onClick={() => handleClick(1, QuestionData[questionNo].type)}>{QuestionData[questionNo].answera}</button>
+      <button onClick={() => handleClick(0, QuestionData[questionNo].type)}>{QuestionData[questionNo].answerb}</button>
     </Wrapper>
   );
 };
 
 export default Question;
 
+// 스타일드 컴포넌트를 사용하여 스타일 지정
 const Wrapper = styled.div`
   height: 100vh;
   width: 100%;
