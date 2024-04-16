@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { QuestionData } from "../assets/data/questiondata";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Question = () => {
   const [questioNo, setQuestioNo] = useState(0);
@@ -12,72 +13,30 @@ const Question = () => {
   ]);
   console.log("totalScore : ", totalScore);
 
-  const handleClickA = (no, type) => {
-    if (type === "EI") {
-      // 기존 스코어에 더할 값을 계산 (기존값 + 배점)
-      const addScore = totalScore[0].score + no;
-      // 새로운 객체
-      const newObject = { id: "EI", score: addScore };
-      // splice 통해 새로운 객체를 할당 객체 자리에 넣어줌
-      totalScore.splice(0, 1, newObject);
-    } else if (type === "SN") {
-      const addScore = totalScore[1].score + no;
-      const newObject = { id: "SN", score: addScore };
-      totalScore.splice(1, 1, newObject);
-    } else if (type === "TF") {
-      const addScore = totalScore[2].score + no;
-      const newObject = { id: "TF", score: addScore };
-      totalScore.splice(2, 1, newObject);
-    } else if (type === "JP") {
-      const addScore = totalScore[3].score + no;
-      const newObject = { id: "JP", score: addScore };
-      totalScore.splice(3, 1, newObject);
-    }
+  const nav = useNavigate();
 
-    setQuestioNo(questioNo + 1);
-  };
-  const handleClickB = (no, type) => {
-    if (type === "EI") {
-      // 기존 스코어에 더할 값을 계산 (기존값 + 배점)
-      const addScore = totalScore[0].score + no;
-      // 새로운 객체
-      const newObject = { id: "EI", score: addScore };
-      // splice 통해 새로운 객체를 할당 객체 자리에 넣어줌
-      totalScore.splice(0, 1, newObject);
-    } else if (type === "SN") {
-      const addScore = totalScore[1].score + no;
-      const newObject = { id: "SN", score: addScore };
-      totalScore.splice(1, 1, newObject);
-    } else if (type === "TF") {
-      const addScore = totalScore[2].score + no;
-      const newObject = { id: "TF", score: addScore };
-      totalScore.splice(2, 1, newObject);
-    } else if (type === "JP") {
-      const addScore = totalScore[3].score + no;
-      const newObject = { id: "JP", score: addScore };
-      totalScore.splice(3, 1, newObject);
+  const handleClick = (no, type) => {
+    const newTotalScore = totalScore.map(item => {
+      if (item.id === type) {
+        return { ...item, score: item.score + no };
+      }
+      return item;
+    });
+
+    setTotalScore(newTotalScore);
+    if (QuestionData.length !== questioNo + 1) {
+      setQuestioNo(questioNo + 1);
+    } else {
+      nav("/result");
     }
-    setQuestioNo(questioNo + 1);
   };
 
   return (
     <Wrapper>
       <p>진행 현황 : {(questioNo / QuestionData.length) * 100}</p>
       <Title>{QuestionData[questioNo].title}</Title>
-      <button
-        onClick={() => {
-          handleClickA(1, QuestionData[questioNo].type);
-        }}
-      >
-        {QuestionData[questioNo].answera}
-      </button>
-      <button
-        onClick={() => {
-          handleClickB(0, QuestionData[questioNo].type);
-        }}
-      >
-        {QuestionData[questioNo].answerb}
-      </button>
+      <button onClick={() => handleClick(1, QuestionData[questioNo].type)}>{QuestionData[questioNo].answera}</button>
+      <button onClick={() => handleClick(0, QuestionData[questioNo].type)}>{QuestionData[questioNo].answerb}</button>
     </Wrapper>
   );
 };
