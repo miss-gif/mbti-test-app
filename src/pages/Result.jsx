@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { ResultData } from "../assets/data/result";
 import { useEffect, useState } from "react";
-import KakaoShareButton from "../component/KakaoShareButton";
+import KakaoSharingButton from "../component/KakaoSharingButton";
 
 const Result = () => {
   const nav = useNavigate();
@@ -34,7 +34,7 @@ const Result = () => {
         </Desc>
         <div style={{ display: "flex" }}>
           <button onClick={handlerClickButton}>테스트 다시하기</button>
-          <KakaoShareButton />
+          <KakaoSharingButton />
         </div>
       </Contents>
     </Wrapper>
