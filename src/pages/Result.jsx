@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { ResultData } from "../assets/data/result";
 import { useEffect, useState } from "react";
+import KakaoShareButton from "../component/KakaoShareButton";
 
 const Result = () => {
   const nav = useNavigate();
@@ -14,8 +15,6 @@ const Result = () => {
     const result = ResultData.find(item => item.best === mbti);
     setResultData(result);
   }, [mbti]);
-
-  console.log(resultData);
 
   const handlerClickButton = () => {
     nav("/");
@@ -33,7 +32,10 @@ const Result = () => {
           예비 집사({resultData.best})님과 찰떡궁합인 고양이는 {resultData.name}입니다. <br />
           {resultData.desc}
         </Desc>
-        <button onClick={handlerClickButton}>테스트 다시하기</button>
+        <div style={{ display: "flex" }}>
+          <button onClick={handlerClickButton}>테스트 다시하기</button>
+          <KakaoShareButton />
+        </div>
       </Contents>
     </Wrapper>
   );
