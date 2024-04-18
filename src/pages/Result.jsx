@@ -1,10 +1,21 @@
 import styled from "styled-components";
 // import "./Home.css";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { ResultData } from "../assets/data/result";
+import { useEffect, useState } from "react";
 
 const Result = () => {
   const nav = useNavigate();
+  const [searchParams] = useSearchParams();
+  const mbti = searchParams.get("mbti");
+  const [resultData, setResultData] = useState({});
+
+  useEffect(() => {
+    const result = ResultData.find(item => item.best === mbti);
+    setResultData(result);
+  }, [mbti]);
+
+  console.log(resultData);
 
   const handlerClickButton = () => {
     nav("/");
@@ -16,9 +27,12 @@ const Result = () => {
       <Contents>
         <Title>결과 보기</Title>
         <LogoImage>
-          <img src={ResultData[0].image} />
+          <img src={resultData.image} />
         </LogoImage>
-        <Desc>예비 집사님과 찰떡궁합인 고양이는 {ResultData[0].name}입니다.</Desc>
+        <Desc>
+          예비 집사({resultData.best})님과 찰떡궁합인 고양이는 {resultData.name}입니다. <br />
+          {resultData.desc}
+        </Desc>
         <button onClick={handlerClickButton}>테스트 다시하기</button>
       </Contents>
     </Wrapper>
