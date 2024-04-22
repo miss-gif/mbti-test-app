@@ -34,7 +34,7 @@ const Result = () => {
         </Desc>
         <div style={{ display: "flex" }}>
           <button onClick={handlerClickButton}>테스트 다시하기</button>
-          <KakaoSharingButton />
+          {/* <KakaoSharingButton /> */}
         </div>
       </Contents>
     </Wrapper>
